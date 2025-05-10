@@ -9,7 +9,7 @@ import Header from './Header';
 const Home = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
-
+  const [erorr, setError] = useState();
   // Get the todos from API
   const BASE_URL = 'https://jsonplaceholder.typicode.com/todos';
   useEffect(() => {
@@ -18,6 +18,9 @@ const Home = () => {
         const response = await fetch(
           `${BASE_URL}` // Fetching the todos from the API
         );
+        if (!response.ok) {
+          setError('API Error');
+        }
         const data = await response.json();
         console.log(data);
         // Set the todos in the state
