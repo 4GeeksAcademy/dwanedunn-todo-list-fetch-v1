@@ -9,7 +9,7 @@ import Header from './Header';
 const Home = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
-  const [erorr, setError] = useState();
+  const [error, setError] = useState();
   // Get the todos from API
   const BASE_URL = 'https://jsonplaceholder.typicode.com/todos';
   useEffect(() => {
