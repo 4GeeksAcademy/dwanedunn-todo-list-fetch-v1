@@ -1,23 +1,43 @@
-import React from "react";
+import React, { useEffect } from 'react';
 
-import { useState } from "react";
-import { FaRegTrashCan } from "react-icons/fa6";
-import { FaPlus } from "react-icons/fa";
+import { useState } from 'react';
+import { FaRegTrashCan } from 'react-icons/fa6';
+import { FaPlus } from 'react-icons/fa';
 
-import Header from "./Header";
+import Header from './Header';
 
 const Home = () => {
   const [todos, setTodos] = useState([]);
-  const [newTodo, setNewTodo] = useState("");
+  const [newTodo, setNewTodo] = useState('');
+
+  // Get the todos from API
+  const BASE_URL = 'https://jsonplaceholder.typicode.com/todos';
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
+        const response = await fetch(
+          `${BASE_URL}` // Fetching the todos from the API
+        );
+        const data = await response.json();
+        console.log(data);
+        // Set the todos in the state
+        setTodos(data);
+      } catch (error) {
+        console.error('Error fetching todos:', error);
+      }
+    };
+
+    fetchTodos(); // Call the function to fetch todos
+  }, []);
 
   const handleInputChange = (e) => {
     setNewTodo(e.target.value);
   };
 
   const handleAddTodo = () => {
-    if (newTodo.trim() !== "") {
+    if (newTodo.trim() !== '') {
       setTodos([...todos, { text: newTodo, completed: false }]);
-      setNewTodo("");
+      setNewTodo('');
     }
   };
 
@@ -54,15 +74,15 @@ const Home = () => {
       <ul className="todo-list">
         {todos.map((todo, index) => (
           <li
-            key={index}
-            className={`todo-item ${todo.completed ? "completed" : ""}`}
+            key={todo.id}
+            className={`todo-item ${todo.completed ? 'completed' : ''}`}
           >
             <input
               type="checkbox"
               checked={todo.completed}
               onChange={() => handleToggleComplete(index)}
             />
-            <span>{todo.text}</span>
+            <span>{todo.title}</span>
             {/* <button onClick={() => handleDeleteTodo(index)}>Delete</button> */}
             <FaRegTrashCan onClick={() => handleDeleteTodo(index)} />
           </li>
