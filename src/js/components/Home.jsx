@@ -37,6 +37,12 @@ const Home = () => {
     setNewTodo(e.target.value);
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleAddTodo();
+    }
+  };
+
   const handleAddTodo = () => {
     if (newTodo.trim() !== '') {
       setTodos([...todos, { text: newTodo, completed: false }]);
@@ -67,6 +73,7 @@ const Home = () => {
             type="text"
             value={newTodo}
             onChange={handleInputChange}
+            onKeyDown={handleKeyPress}
             placeholder="What needs to be done?"
           />
           {/* <button onClick={handleAddTodo}>Add</button> */}
